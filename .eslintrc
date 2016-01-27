@@ -1,0 +1,12 @@
+{
+  "extends": ["zavatta", "zavatta-react"],
+  "rules": {
+    "camelcase": 0,
+    "id-length": 0
+  },
+  "globals": {
+    "TweenMax": false,
+    "TimelineMax": false,
+    "google": false
+  }
+}
