@@ -6,6 +6,7 @@ import SwipeableViews from 'react-swipeable-views';
 
 import Playlist from 'components/Playlist';
 import Search from 'components/Search';
+import Config from 'utils/Config';
 
 const style = {
     textTransform: 'uppercase',
@@ -39,7 +40,7 @@ class Home extends Component {
             slideIndex: 0,
         };
 
-        var sock =  new WebSocket('ws://192.168.0.16:9090/jsonrpc');
+        var sock =  new WebSocket('ws://' + Config.kodi.ip + ':' + Config.kodi.wsPort + '/jsonrpc');
         sock.onopen = function() {
             console.log('ws connection opened');
         };

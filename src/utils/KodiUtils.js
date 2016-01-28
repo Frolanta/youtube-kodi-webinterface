@@ -1,11 +1,11 @@
 /**
  * Created by Frolanta on 28/01/16.
  */
-
+import Config from 'utils/Config';
 
 var KodiUtils = {
     apiCall: function (method, params, callback) {
-        var url = 'http://192.168.0.16:8080/jsonrpc';
+        var url = 'http://' + Config.kodi.ip + ':' + Config.kodi.port + '/jsonrpc';
         var request = require('superagent');
         let jsonp = require('superagent-jsonp');
 
@@ -31,19 +31,3 @@ var KodiUtils = {
 };
 
 module.exports = KodiUtils;
-
-
-
-//data: {
-//    request: JSON.stringify ({
-//        jsonrpc: "2.0",
-//        method: "Playlist.Add",
-//        params: {
-//            playlistid: 1,
-//            item: {
-//                file: "plugin://plugin.video.youtube/?action=play_video&videoid=" + id
-//            }
-//        },
-//        id: 0
-//    })
-//}

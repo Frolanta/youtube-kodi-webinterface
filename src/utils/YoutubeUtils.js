@@ -1,3 +1,4 @@
+import Config from 'utils/Config';
 
 var YoutubeUtils = {
 
@@ -6,7 +7,7 @@ var YoutubeUtils = {
         var url = 'https://www.googleapis.com/youtube/v3/' + method;
         var request = require('superagent');
 
-        params.key = "AIzaSyAex_jkoIzt99SqMKXVCF7XRAQFDDDEwR4";
+        params.key = Config.youtube.apiKey;
 
         request
             .get(url)
