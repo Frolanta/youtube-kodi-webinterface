@@ -12,3 +12,14 @@ html {
   box-sizing: inherit;
   outline: none;
 }
+
+
+.tabContainer {
+  padding: 1em;
+}
+
+.playlist {
+  & > .controls {
+    margin-bottom: 1em;
+  }
+}
