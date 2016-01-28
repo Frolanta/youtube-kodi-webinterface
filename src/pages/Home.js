@@ -7,7 +7,6 @@ import Paper from 'material-ui/lib/paper';
 
 import Playlist from 'components/Playlist';
 import Search from 'components/Search';
-import Config from 'utils/Config';
 
 const style = {
     textTransform: 'uppercase',
@@ -39,17 +38,8 @@ class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            slideIndex: 0,
+            slideIndex: 0
         };
-
-        var sock =  new WebSocket('ws://' + Config.kodi.ip + ':' + Config.kodi.wsPort + '/jsonrpc');
-        sock.onopen = function() {
-            console.log('ws connection opened');
-        };
-        sock.onmessage = function(e) {
-            console.log('message', e.data);
-        };
-
     }
 
     handleChange = (value) => {

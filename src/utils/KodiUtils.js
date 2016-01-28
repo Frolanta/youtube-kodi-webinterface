@@ -24,7 +24,7 @@ var KodiUtils = {
             .use(jsonp)
             .end(function(err, res) {
                 if (!err) {
-                    callback(res.result);
+                    callback(res.body.result);
                 }
             });
     }

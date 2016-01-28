@@ -56,16 +56,37 @@ class SearchItem extends Component {
         });
     };
 
+    addVideoToPlaylist = (id) => {
+        KodiUtils.apiCall('Playlist.Add', {
+            playlistid: 1,
+            item: {
+                file: "plugin://plugin.video.youtube/?action=play_video&videoid=" + id
+            }
+        }, function (data) {
+            //console.log(data);
+        });
+    };
+
     addToPlaylist = () => {
 
         if (this.state.type === 'video') {
-            KodiUtils.apiCall('Playlist.Add', {
-                playlistid: 1,
-                item: {
-                    file: "plugin://plugin.video.youtube/?action=play_video&videoid=" + this.state.id
-                }
+
+           this.addVideoToPlaylist(this.state.id);
+
+        } else {
+
+            var self = this;
+
+            YoutubeUtils.apiCall('playlistItems', {
+                part: 'contentDetails, snippet, id',
+                playlistId: this.state.id,
+                maxResults: 50
             }, function (data) {
-                console.log(data);
+
+                data.items.forEach(function (item) {
+                    self.addVideoToPlaylist(item.contentDetails.videoId);
+                });
+
             });
         }
 

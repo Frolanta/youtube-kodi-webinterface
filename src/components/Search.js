@@ -13,7 +13,6 @@ const style = {
     padding: '10px'
 };
 
-
 const loadMoreStyle = {
   marginTop: '10px'
 };
@@ -68,8 +67,10 @@ class Search extends Component {
     render () {
         return (
             <div className="search">
-                <Paper zDepth={1} style={style}>
-                    <SearchInput handleNewRequest={this.handleNewRequest}></SearchInput>
+                <Paper zDepth={1}>
+                    <div style={style}>
+                        <SearchInput handleNewRequest={this.handleNewRequest}></SearchInput>
+                    </div>
                     <SearchItemsList items={this.state.items}></SearchItemsList>
                     { this.state.loading && <div><CircularProgress /></div> }
                     { this.state.nextPageToken && <div><RaisedButton style={loadMoreStyle} label="Load more" secondary={true} onClick={this.nextPage}/></div>}
