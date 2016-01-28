@@ -3,9 +3,11 @@
  */
 import React, { Component } from 'react'
 import AutoComplete from 'material-ui/lib/auto-complete';
+import YoutubeUtils from 'utils/YoutubeUtils';
 
 const style = {
-    width: '100%'
+    width: '100%',
+    marginBottom: '1em'
 };
 
 class SearchInput extends Component {
@@ -21,25 +23,19 @@ class SearchInput extends Component {
     handleUpdateInput = (input) => {
 
         if (input.length >= 3) {
-            var request = require('superagent');
-            let jsonp = require('superagent-jsonp');
-
             var self = this;
+            YoutubeUtils.getSuggestions(input, function (data) {
+                var dataSource = [];
 
-            request
-                .get('http://suggestqueries.google.com/complete/search?hl=en&ds=yt&client=youtube&hjson=t&cp=1&q=' + input + '&format=5&alt=json&callback=?')
-                .use(jsonp)
-                .end(function(err, res){
-
-                    var dataSource = [];
-
-                    res.body[1].forEach(function (array) {
-                        dataSource.push(array[0]);
-                    });
-
-                    self.setState({dataSource: dataSource});
-
+                data.forEach(function (array) {
+                    dataSource.push(array[0]);
                 });
+
+                self.setState({dataSource: dataSource});
+            });
+
+        } else {
+            this.setState({dataSource: []});
         }
     };
 
@@ -58,7 +54,3 @@ class SearchInput extends Component {
 }
 
 export default SearchInput
-
-
-
-//http://suggestqueries.google.com/complete/search?hl=en&ds=yt&client=youtube&hjson=t&cp=1&q="+query+"&key="+apiKey+"&format=5&alt=json&callback=?
