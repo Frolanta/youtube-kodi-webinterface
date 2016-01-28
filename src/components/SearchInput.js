@@ -7,7 +7,7 @@ import YoutubeUtils from 'utils/YoutubeUtils';
 
 const style = {
     width: '100%',
-    marginBottom: '1em'
+    marginBottom: '0'
 };
 
 class SearchInput extends Component {

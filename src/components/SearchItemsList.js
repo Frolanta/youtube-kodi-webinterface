@@ -5,7 +5,6 @@ import React, { Component } from 'react'
 import SearchItem from 'components/SearchItem'
 import List from 'material-ui/lib/lists/list';
 import Divider from 'material-ui/lib/divider';
-import Paper from 'material-ui/lib/paper';
 
 const style = {
    paddingTop: 0,
@@ -14,22 +13,20 @@ const style = {
 
 class SearchItemsList extends Component {
     render () {
-        var content = this.props.items.map(function(item){
+        var content = this.props.items.map(function(item, key){
 
             return (
                 <div>
-                    <SearchItem item={item}></SearchItem>
+                    <SearchItem key={key} item={item}></SearchItem>
                     <Divider />
                 </div>
             )
         });
 
         return (
-            <Paper zDepth={1}>
-                <List style={style}>
-                    {content}
-                </List>
-            </Paper>
+            <List style={style}>
+                {content}
+            </List>
         )
 
     }

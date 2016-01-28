@@ -3,6 +3,11 @@ html {
   font-size: 16px;
   line-height: 24px;
   box-sizing: border-box;
+  background: #C3D0D6;
+}
+
+html, body, #react {
+  height: 100%;
 }
 
 * {
@@ -22,4 +27,8 @@ html {
   & > .controls {
     margin-bottom: 1em;
   }
+}
+
+.search {
+  height: 100%;
 }

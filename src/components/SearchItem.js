@@ -18,13 +18,15 @@ class SearchItem extends Component {
             title: props.item.snippet.title,
             channel: props.item.id.kind === 'youtube#video' ? props.item.snippet.channelTitle : 'Playlist',
             count: '...',
-            nextPageToken: null
+            nextPageToken: null,
+            type: props.item.id.kind === 'youtube#video' ? 'video' : 'playlist',
+            id: props.item.id.kind === 'youtube#video' ? props.item.id.videoId: props.item.id.playlistId
         };
 
-        if (props.item.id.kind === 'youtube#video') {
-            this.getVideoViewCount(props.item.id.videoId);
+        if (this.state.type === 'video') {
+            this.getVideoViewCount(this.state.id);
         } else {
-            this.getPlaylistVideoCount(props.item.id.playlistId);
+            this.getPlaylistVideoCount(this.state.id);
         }
 
     }
@@ -53,9 +55,15 @@ class SearchItem extends Component {
         });
     };
 
+    addToPlaylist = () => {
+
+    };
+
     render () {
         return (
             <ListItem
+                key={this.props.key}
+                onClick={this.addToPlaylist}
                 leftAvatar={<Avatar src={this.state.thumbnail} />}
                 primaryText={this.state.title}
                 secondaryText={
