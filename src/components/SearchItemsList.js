@@ -14,8 +14,8 @@ const style = {
 
 class SearchItemsList extends Component {
     render () {
-
         var content = this.props.items.map(function(item){
+
             return (
                 <div>
                     <SearchItem item={item}></SearchItem>

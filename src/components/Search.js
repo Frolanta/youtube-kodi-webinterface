@@ -21,6 +21,8 @@ class Search extends Component {
     handleNewRequest = (search) => {
 
         if (search.length > 0) {
+
+            this.setState({items: []});
             var self = this;
 
             YoutubeUtils.apiCall("search", {
