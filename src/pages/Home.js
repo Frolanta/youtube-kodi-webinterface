@@ -7,10 +7,9 @@ import SwipeableViews from 'react-swipeable-views';
 import Playlist from 'components/Playlist';
 import Search from 'components/Search';
 
-
 const style = {
     textTransform: 'uppercase',
-    fontWeight: 600,
+    fontWeight: 600
 };
 
 const inkStyle = {
@@ -22,6 +21,16 @@ const containerStyle = {
     height: '100%'
 };
 
+const tabsStyle = {
+    position: 'absolute',
+    width: '100%'
+};
+
+const swipeableViewsStyle = {
+    paddingTop: '45px',
+    height: '100%'
+};
+
 class Home extends Component {
 
     constructor(props) {
@@ -29,6 +38,15 @@ class Home extends Component {
         this.state = {
             slideIndex: 0,
         };
+
+        var sock =  new WebSocket('ws://192.168.0.16:9090/jsonrpc');
+        sock.onopen = function() {
+            console.log('ws connection opened');
+        };
+        sock.onmessage = function(e) {
+            console.log('message', e.data);
+        };
+
     }
 
     handleChange = (value) => {
@@ -44,14 +62,14 @@ class Home extends Component {
     render () {
         return (
             <div style={containerStyle}>
-                <Tabs inkBarStyle={inkStyle} onChange={this.handleChange} value={this.state.slideIndex}>
+                <Tabs style={tabsStyle} inkBarStyle={inkStyle} onChange={this.handleChange} value={this.state.slideIndex}>
                     <Tab label="Playlist" style={style} value={0}></Tab>
                     <Tab label="Search" style={style} value={1}></Tab>
                 </Tabs>
                 <SwipeableViews
                     index={this.state.slideIndex}
                     onChangeIndex={this.handleChange}
-                    style={containerStyle}
+                    style={swipeableViewsStyle}
                     >
                     <div className="tabContainer">
                         <Playlist></Playlist>

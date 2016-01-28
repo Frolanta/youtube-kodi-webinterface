@@ -6,6 +6,7 @@ import ListItem from 'material-ui/lib/lists/list-item';
 import Avatar from 'material-ui/lib/avatar';
 import Colors from 'material-ui/lib/styles/colors';
 import YoutubeUtils from 'utils/YoutubeUtils';
+import KodiUtils from 'utils/KodiUtils';
 
 
 class SearchItem extends Component {
@@ -56,6 +57,17 @@ class SearchItem extends Component {
     };
 
     addToPlaylist = () => {
+
+        if (this.state.type === 'video') {
+            KodiUtils.apiCall('Playlist.Add', {
+                playlistid: 1,
+                item: {
+                    file: "plugin://plugin.video.youtube/?action=play_video&videoid=" + this.state.id
+                }
+            }, function (data) {
+                console.log(data);
+            });
+        }
 
     };
 
