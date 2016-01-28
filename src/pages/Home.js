@@ -3,6 +3,7 @@ import Tabs from 'material-ui/lib/tabs/tabs';
 import Tab from 'material-ui/lib/tabs/tab';
 import Slider from 'material-ui/lib/slider';
 import SwipeableViews from 'react-swipeable-views';
+import Paper from 'material-ui/lib/paper';
 
 import Playlist from 'components/Playlist';
 import Search from 'components/Search';
@@ -24,11 +25,12 @@ const containerStyle = {
 
 const tabsStyle = {
     position: 'absolute',
-    width: '100%'
+    width: '100%',
+    zIndex: '1'
 };
 
 const swipeableViewsStyle = {
-    paddingTop: '45px',
+    paddingTop: '50px',
     height: '100%'
 };
 
@@ -52,7 +54,7 @@ class Home extends Component {
 
     handleChange = (value) => {
         this.setState({
-            slideIndex: value,
+            slideIndex: value
         });
     };
 
@@ -63,10 +65,12 @@ class Home extends Component {
     render () {
         return (
             <div style={containerStyle}>
-                <Tabs style={tabsStyle} inkBarStyle={inkStyle} onChange={this.handleChange} value={this.state.slideIndex}>
-                    <Tab label="Playlist" style={style} value={0}></Tab>
-                    <Tab label="Search" style={style} value={1}></Tab>
-                </Tabs>
+                <Paper zDepth={2} style={tabsStyle} >
+                    <Tabs inkBarStyle={inkStyle} onChange={this.handleChange} value={this.state.slideIndex}>
+                        <Tab label="Playlist" style={style} value={0}></Tab>
+                        <Tab label="Search" style={style} value={1}></Tab>
+                    </Tabs>
+                </Paper>
                 <SwipeableViews
                     index={this.state.slideIndex}
                     onChangeIndex={this.handleChange}
