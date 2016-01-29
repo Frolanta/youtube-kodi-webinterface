@@ -3,10 +3,18 @@
  */
 import React, { Component } from 'react'
 import RaisedButton from 'material-ui/lib/raised-button';
+import FontIcon from 'material-ui/lib/font-icon';
+import IconButton from 'material-ui/lib/icon-button';
 import Paper from 'material-ui/lib/paper';
 import Config from 'utils/Config';
 import KodiUtils from 'utils/KodiUtils';
 import PlaylistItemsList from 'components/PlaylistItemsList'
+
+import IconPlay from 'material-ui/lib/svg-icons/av/play-arrow';
+import IconPause from 'material-ui/lib/svg-icons/av/pause';
+import IconPower from 'material-ui/lib/svg-icons/action/power-settings-new';
+import IconStop from 'material-ui/lib/svg-icons/av/stop';
+import IconClear from 'material-ui/lib/svg-icons/communication/clear-all';
 
 const style = {
     marginRight: 10
@@ -199,10 +207,17 @@ class Playlist extends Component {
         return (
             <div className="playlist">
                 <div className="controls">
-                    { !this.state.opened && <RaisedButton label="Start" style={style} onClick={this.openPlayer}/>}
-                    { this.state.opened && <RaisedButton label="Stop" style={style} onClick={this.stopPlayer}/>}
-                    <RaisedButton label={ this.state.playing ? 'pause' : 'play' } style={style} onClick={this.playPause}/>
-                    <RaisedButton label="Clear" style={style} onClick={this.clearPlaylist}/>
+
+                    <Paper zDepth={1}>
+
+                        { !this.state.opened && <IconButton onClick={this.openPlayer}><IconPower /></IconButton>}
+                        { this.state.opened && <IconButton onClick={this.stopPlayer}><IconStop /></IconButton>}
+
+                        <IconButton onClick={this.playPause}>{ this.state.playing ? <IconPause /> : <IconPlay /> }</IconButton>
+                        <IconButton onClick={this.clearPlaylist}><IconClear /></IconButton>
+
+                    </Paper>
+                    
                 </div>
                 <Paper zDepth={1}>
                     <PlaylistItemsList items={this.state.items}></PlaylistItemsList>
