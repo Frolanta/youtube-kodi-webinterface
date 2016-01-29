@@ -90,6 +90,7 @@ class Playlist extends Component {
                         break;
                     case 'Player.OnStop':
                         self.setState({opened: false});
+                        self.markActiveItem();
                         break;
                     case 'Playlist.OnClear':
                         self.setState({items: []});
@@ -122,6 +123,7 @@ class Playlist extends Component {
             if (data.length > 0 && data[0].playerid == 1) {
                 self.setState({opened: true});
                 self.isVideoPlaying();
+                self.markActiveItem();
             }
         });
     };
@@ -143,8 +145,11 @@ class Playlist extends Component {
     };
 
     markActiveItem = () => {
+
+        var self = this;
+
         this.getPlayerPosition(function (pos) {
-            //todo
+            self.refs.playlistItemsList.setPlayingItem(pos);
         });
     };
 
@@ -288,7 +293,7 @@ class Playlist extends Component {
 
                 </div>
                 <Paper zDepth={1}>
-                    <PlaylistItemsList items={this.state.items}></PlaylistItemsList>
+                    <PlaylistItemsList ref="playlistItemsList" items={this.state.items}></PlaylistItemsList>
                 </Paper>
             </div>
         );

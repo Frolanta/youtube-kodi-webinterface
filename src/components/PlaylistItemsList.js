@@ -12,12 +12,29 @@ const style = {
 };
 
 class PlaylistItemsList extends Component {
+
+    setPlayingItem = (pos) => {
+
+        for(var index in this.refs) {
+
+            if (parseInt(index) === pos) {
+                this.refs[pos].setStatus('playing');
+            } else if (parseInt(index) > pos) {
+                this.refs[parseInt(index)].setStatus('notplaying');
+            } else {
+                this.refs[parseInt(index)].setStatus('played');
+            }
+        }
+
+
+    };
+
     render () {
         var content = this.props.items.map(function(item, key) {
 
             return (
                 <div key={key}>
-                    <PlaylistItem pos={key} item={item}></PlaylistItem>
+                    <PlaylistItem ref={key} pos={key} item={item}></PlaylistItem>
                     <Divider />
                 </div>
             )

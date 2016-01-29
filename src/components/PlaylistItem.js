@@ -13,12 +13,28 @@ import IconMenu from 'material-ui/lib/menus/icon-menu';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 
 
+const styles = {
+  playing: {
+      backgroundColor: Colors.blue100
+  },
+  played: {
+      opacity: '0.5',
+      backgroundColor: 'white'
+  },
+  notplayed: {
+      backgroundColor: 'white'
+  }
+};
+
+
 class PlaylistItem extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
+            status: 'notplayed',
+            playing: false,
             thumbnail: null,
             title: this.props.item.file,
             pos: this.props.pos,
@@ -55,11 +71,18 @@ class PlaylistItem extends Component {
         });
     };
 
+
+    setStatus = (status) => {
+        this.setState({status: status});
+    };
+
+
     render () {
         return (
             <ListItem
+                style={styles[this.state.status]}
                 key={this.props.pos}
-                leftAvatar={<Avatar src={this.state.thumbnail} />}
+                leftAvatar={<Avatar src={this.state.status === 'playing' ? '/src/images/playing.gif' : this.state.thumbnail} />}
                 primaryText={this.state.title}
                 rightIconButton={
                 <IconMenu
