@@ -14,6 +14,8 @@ import IconPlay from 'material-ui/lib/svg-icons/av/play-arrow';
 import IconPause from 'material-ui/lib/svg-icons/av/pause';
 import IconPower from 'material-ui/lib/svg-icons/action/power-settings-new';
 import IconStop from 'material-ui/lib/svg-icons/av/stop';
+import IconNext from 'material-ui/lib/svg-icons/av/skip-next';
+import IconPrevious from 'material-ui/lib/svg-icons/av/skip-previous';
 import IconClear from 'material-ui/lib/svg-icons/communication/clear-all';
 
 const style = {
@@ -68,7 +70,7 @@ class Playlist extends Component {
                     case 'Player.OnPlay':
                         if (res.params.data.player.playerid === 1) {
 
-                            self.setState({playing: true});
+                            self.setState({playing: true, opened: true});
                             self.markActiveItem();
                         }
                         break;
@@ -203,6 +205,24 @@ class Playlist extends Component {
         });
     };
 
+    nextVideo = () => {
+        KodiUtils.apiCall('Player.Move', {
+            playerid: 1,
+            direction: 'right'
+        }, function (data) {
+            console.log(data);
+        });
+    };
+
+    prevVideo = () => {
+        KodiUtils.apiCall('Player.Move', {
+            playerid: 1,
+            direction: 'left'
+        }, function (data) {
+            console.log(data);
+        });
+    };
+
     render () {
         return (
             <div className="playlist">
@@ -213,11 +233,13 @@ class Playlist extends Component {
                         { !this.state.opened && <IconButton onClick={this.openPlayer}><IconPower /></IconButton>}
                         { this.state.opened && <IconButton onClick={this.stopPlayer}><IconStop /></IconButton>}
 
+                        <IconButton onClick={this.prevVideo}><IconPrevious /></IconButton>
                         <IconButton onClick={this.playPause}>{ this.state.playing ? <IconPause /> : <IconPlay /> }</IconButton>
+                        <IconButton onClick={this.nextVideo}><IconNext /></IconButton>
                         <IconButton onClick={this.clearPlaylist}><IconClear /></IconButton>
 
                     </Paper>
-                    
+
                 </div>
                 <Paper zDepth={1}>
                     <PlaylistItemsList items={this.state.items}></PlaylistItemsList>
