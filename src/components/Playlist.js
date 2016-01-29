@@ -217,12 +217,12 @@ class Playlist extends Component {
 
     changeVolume = (e) => {
 
-        this.setState({volume: parseInt(this.refs.sliderVolume.getValue())});
+        var nv = parseInt(this.refs.sliderVolume.getValue());
+        this.setState({volume: nv});
 
         if (!this.state.volumeDragging) {
-
             KodiUtils.apiCall('Application.SetVolume', {
-                volume: this.state.volume
+                volume: nv
             }, function (data) {
                 console.log(data);
             });
