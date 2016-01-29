@@ -4,6 +4,7 @@ import Tab from 'material-ui/lib/tabs/tab';
 import Slider from 'material-ui/lib/slider';
 import SwipeableViews from 'react-swipeable-views';
 import Paper from 'material-ui/lib/paper';
+import Snackbar from 'material-ui/lib/snackbar';
 
 import Playlist from 'components/Playlist';
 import Search from 'components/Search';
@@ -38,7 +39,9 @@ class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            slideIndex: 0
+            slideIndex: 0,
+            snackBarOpen: false,
+            snackBarMessage: ''
         };
     }
 
@@ -50,6 +53,26 @@ class Home extends Component {
 
     updateSearchHeight = () => {
       this.forceUpdate();
+    };
+
+    openSnackBar = (message) => {
+        if (!this.state.snackBarOpen) {
+            this.setState({snackBarOpen: true, snackBarMessage: message});
+        } else {
+            this.setState({snackBarOpen: false});
+
+            var self = this;
+
+            setTimeout(function () {
+                self.setState({snackBarOpen: true, snackBarMessage: message});
+            }, 100);
+        }
+    };
+
+    handleRequestClose = () => {
+        this.setState({
+            snackBarOpen: false
+        });
     };
 
     render () {
@@ -67,12 +90,18 @@ class Home extends Component {
                     style={swipeableViewsStyle}
                     >
                     <div className="tabContainer">
-                        <Playlist></Playlist>
+                        <Playlist openSnackBar={this.openSnackBar}></Playlist>
                     </div>
                     <div className="tabContainer">
                         <Search newSearchCallback={this.updateSearchHeight}></Search>
                     </div>
                 </SwipeableViews>
+                <Snackbar
+                    open={this.state.snackBarOpen}
+                    message={this.state.snackBarMessage}
+                    autoHideDuration={1500}
+                    onRequestClose={this.handleRequestClose}
+                    />
             </div>
         );
     }

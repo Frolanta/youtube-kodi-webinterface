@@ -18,7 +18,8 @@ class Playlist extends Component {
         super(props);
 
         this.state = {
-            items: []
+            items: [],
+            openSnackBar: this.props.openSnackBar
         };
 
         var self = this;
@@ -34,7 +35,25 @@ class Playlist extends Component {
             if (res.method) {
                 switch (res.method) {
                     case 'Playlist.OnAdd':
-                        self.refreshPlaylist();
+                        if (res.params.data.playlistid === 1) {
+                            self.refreshPlaylist();
+                            self.state.openSnackBar('Video added to playlist.');
+                        }
+                        break;
+                    case 'Playlist.OnRemove':
+                        if (res.params.data.playlistid === 1) {
+
+                            console.log('splice at position: ' + res.params.data.position);
+                            console.log(self.state.items[res.params.data.position]);
+
+                            var items = self.state.items;
+                            items.splice(res.params.data.position, 1);
+                            self.setState({items: items});
+                            self.state.openSnackBar('Video removed to playlist.');
+                        }
+                        break;
+                    case 'Playlist.OnClear':
+                        self.setState({items: []});
                         break;
                     default:
                         break;
@@ -68,18 +87,38 @@ class Playlist extends Component {
         });
     };
 
+    clearPlaylist = () => {
+      KodiUtils.apiCall('Playlist.Clear', {playlistid: 1}, function (data) {
+          console.log(data);
+      });
+    };
+
+    openPlayer = () => {
+        this.getPlayerPosition(function (pos) {
+           console.log(pos);
+        });
+    };
+
+    getPlayerPosition = (callback) => {
+        KodiUtils.apiCall('Player.GetProperties', {
+            playerid: 1,
+            properties: ["position"]
+        }, function (data) {
+            callback(data.position);
+        });
+    };
+
     render () {
         return (
             <div className="playlist">
                 <div className="controls">
+                    <RaisedButton label="Start" style={style} onClick={this.openPlayer}/>
                     <RaisedButton label="Play/Pause" style={style}/>
-                    <RaisedButton label="Clear" style={style}/>
-                    <RaisedButton label="Refresh" style={style} onClick={this.refreshPlaylist}/>
+                    <RaisedButton label="Clear" style={style} onClick={this.clearPlaylist}/>
                 </div>
                 <Paper zDepth={1}>
                     <PlaylistItemsList items={this.state.items}></PlaylistItemsList>
                 </Paper>
-
             </div>
         );
     }

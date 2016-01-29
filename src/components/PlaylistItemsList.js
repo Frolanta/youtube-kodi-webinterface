@@ -13,11 +13,11 @@ const style = {
 
 class PlaylistItemsList extends Component {
     render () {
-        var content = this.props.items.map(function(item, key){
+        var content = this.props.items.map(function(item, key) {
 
             return (
-                <div>
-                    <PlaylistItem key={key} item={item}></PlaylistItem>
+                <div key={key}>
+                    <PlaylistItem pos={key} item={item}></PlaylistItem>
                     <Divider />
                 </div>
             )

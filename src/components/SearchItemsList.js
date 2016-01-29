@@ -16,8 +16,8 @@ class SearchItemsList extends Component {
         var content = this.props.items.map(function(item, key){
 
             return (
-                <div>
-                    <SearchItem key={key} item={item}></SearchItem>
+                <div key={key}>
+                    <SearchItem item={item}></SearchItem>
                     <Divider />
                 </div>
             )
