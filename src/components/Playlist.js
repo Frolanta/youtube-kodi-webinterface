@@ -18,6 +18,8 @@ class Playlist extends Component {
         super(props);
 
         this.state = {
+            opened: false,
+            playing: true,
             items: [],
             openSnackBar: this.props.openSnackBar
         };
@@ -43,14 +45,32 @@ class Playlist extends Component {
                     case 'Playlist.OnRemove':
                         if (res.params.data.playlistid === 1) {
 
-                            console.log('splice at position: ' + res.params.data.position);
-                            console.log(self.state.items[res.params.data.position]);
+                            //console.log('splice at position: ' + res.params.data.position);
+                            //console.log(self.state.items[res.params.data.position]);
+                            //
+                            //var items = self.state.items;
+                            //items.splice(res.params.data.position, 1);
+                            //self.setState({items: items});
 
-                            var items = self.state.items;
-                            items.splice(res.params.data.position, 1);
-                            self.setState({items: items});
+                            self.refreshPlaylist();
+
                             self.state.openSnackBar('Video removed to playlist.');
                         }
+                        break;
+                    case 'Player.OnPlay':
+                        if (res.params.data.player.playerid === 1) {
+
+                            self.setState({playing: true});
+                            self.markActiveItem();
+                        }
+                        break;
+                    case 'Player.OnPause':
+                        if (res.params.data.player.playerid === 1) {
+                            self.setState({playing: false});
+                        }
+                        break;
+                    case 'Player.OnStop':
+                        self.setState({opened: false});
                         break;
                     case 'Playlist.OnClear':
                         self.setState({items: []});
@@ -62,9 +82,44 @@ class Playlist extends Component {
 
         };
 
+        this.isPlayerOpened();
         this.refreshPlaylist();
 
     }
+
+    isPlayerOpened = () => {
+
+        var self = this;
+
+        KodiUtils.apiCall('Player.GetActivePlayers', {}, function (data) {
+            if (data.length > 0 && data[0].playerid == 1) {
+                self.setState({opened: true});
+                self.isVideoPlaying();
+            }
+        });
+    };
+
+    isVideoPlaying = () => {
+
+        var self = this;
+
+        KodiUtils.apiCall('Player.GetProperties', {
+            playerid: 1,
+            properties: ["speed"]
+        }, function (data) {
+            if (data.speed !== 0) {
+                self.setState({playing: true});
+            } else {
+                self.setState({playing: false});
+            }
+        });
+    };
+
+    markActiveItem = () => {
+        this.getPlayerPosition(function (pos) {
+            //todo
+        });
+    };
 
     refreshPlaylist = () => {
 
@@ -72,6 +127,7 @@ class Playlist extends Component {
 
         this.getPlaylist(function (data) {
             if (data.limits.total > 0) {
+                self.setState({items: []});
                 self.setState({items: data.items});
             }
         });
@@ -94,8 +150,22 @@ class Playlist extends Component {
     };
 
     openPlayer = () => {
+
+        var self = this;
+
         this.getPlayerPosition(function (pos) {
            console.log(pos);
+
+            if (pos === -1) {
+                KodiUtils.apiCall('Player.Open', {
+                    item: {playlistid: 1, position: 0}
+                }, function (data) {
+                    if (data == 'OK') {
+                        self.setState({opened: true});
+                    }
+                });
+            }
+
         });
     };
 
@@ -108,12 +178,30 @@ class Playlist extends Component {
         });
     };
 
+    playPause = () => {
+        KodiUtils.apiCall('Player.PlayPause',  {
+            playerid: 1,
+            play: "toggle"
+        }, function (data) {
+            console.log(data);
+        });
+    };
+
+    stopPlayer = () => {
+        KodiUtils.apiCall('Player.Stop',  {
+            playerid: 1
+        }, function (data) {
+            console.log(data);
+        });
+    };
+
     render () {
         return (
             <div className="playlist">
                 <div className="controls">
-                    <RaisedButton label="Start" style={style} onClick={this.openPlayer}/>
-                    <RaisedButton label="Play/Pause" style={style}/>
+                    { !this.state.opened && <RaisedButton label="Start" style={style} onClick={this.openPlayer}/>}
+                    { this.state.opened && <RaisedButton label="Stop" style={style} onClick={this.stopPlayer}/>}
+                    <RaisedButton label={ this.state.playing ? 'pause' : 'play' } style={style} onClick={this.playPause}/>
                     <RaisedButton label="Clear" style={style} onClick={this.clearPlaylist}/>
                 </div>
                 <Paper zDepth={1}>
