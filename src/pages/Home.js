@@ -39,6 +39,7 @@ class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            disableSwiping: false,
             slideIndex: 0,
             snackBarOpen: false,
             snackBarMessage: ''
@@ -53,6 +54,10 @@ class Home extends Component {
 
     updateSearchHeight = () => {
       this.forceUpdate();
+    };
+
+    toggleSwiping = (bool) => {
+      this.setState({disableSwiping: bool});
     };
 
     openSnackBar = (message) => {
@@ -87,12 +92,13 @@ class Home extends Component {
                     </Tabs>
                 </Paper>
                 <SwipeableViews
+                    disabled={this.state.disableSwiping}
                     index={this.state.slideIndex}
                     onChangeIndex={this.handleChange}
                     style={swipeableViewsStyle}
                     >
                     <div className="tabContainer">
-                        <Playlist openSnackBar={this.openSnackBar}></Playlist>
+                        <Playlist toggleSwiping={this.toggleSwiping} openSnackBar={this.openSnackBar}></Playlist>
                     </div>
                     <div className="tabContainer">
                         <Search newSearchCallback={this.updateSearchHeight}></Search>

@@ -14,7 +14,13 @@ const style = {
 };
 
 const loadMoreStyle = {
-  marginTop: '10px'
+    width: '100%',
+    textAlign: 'center'
+};
+
+const loadMoreButton = {
+    marginTop: '10px',
+    marginBottom: '10px'
 };
 
 class Search extends Component {
@@ -72,8 +78,8 @@ class Search extends Component {
                         <SearchInput handleNewRequest={this.handleNewRequest}></SearchInput>
                     </div>
                     <SearchItemsList items={this.state.items}></SearchItemsList>
-                    { this.state.loading && <div><CircularProgress /></div> }
-                    { this.state.nextPageToken && <div><RaisedButton style={loadMoreStyle} label="Load more" secondary={true} onClick={this.nextPage}/></div>}
+                    { this.state.loading && <div style={loadMoreStyle}><CircularProgress /></div> }
+                    { this.state.nextPageToken && <div style={loadMoreStyle}><RaisedButton style={loadMoreButton} label="Load more" secondary={true} onClick={this.nextPage}/></div>}
                 </Paper>
             </div>
         );

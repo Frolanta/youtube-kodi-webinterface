@@ -39,8 +39,11 @@ class Playlist extends Component {
             opened: false,
             playing: true,
             volume: 0,
+            updatedVolume: 0,
+            volumeDragging: false,
             items: [],
-            openSnackBar: this.props.openSnackBar
+            openSnackBar: this.props.openSnackBar,
+            toggleSwiping: this.props.toggleSwiping
         };
 
         var self = this;
@@ -123,7 +126,6 @@ class Playlist extends Component {
             if (data.length > 0 && data[0].playerid == 1) {
                 self.setState({opened: true});
                 self.isVideoPlaying();
-                self.markActiveItem();
             }
         });
     };
@@ -161,6 +163,7 @@ class Playlist extends Component {
             if (data.limits.total > 0) {
                 self.setState({items: []});
                 self.setState({items: data.items});
+                self.markActiveItem();
             }
         });
     };
@@ -213,13 +216,29 @@ class Playlist extends Component {
     };
 
     changeVolume = (e) => {
-        var newVolume = parseInt(this.refs.sliderVolume.getValue());
 
-        KodiUtils.apiCall('Application.SetVolume', {
-           volume: newVolume
-        }, function (data) {
-            console.log(data);
-        });
+        this.setState({volume: parseInt(this.refs.sliderVolume.getValue())});
+
+        if (!this.state.volumeDragging) {
+
+            KodiUtils.apiCall('Application.SetVolume', {
+                volume: this.state.volume
+            }, function (data) {
+                console.log(data);
+            });
+        }
+    };
+
+    stopChangeVolume = (e) => {
+        console.log('stop draging');
+        this.state.toggleSwiping(false);
+        this.setState({volumeDragging: false});
+        this.changeVolume(e);
+    };
+
+    startChangeVolume = (e) => {
+        this.state.toggleSwiping(true);
+        this.setState({volumeDragging: true});
     };
 
     getPlayerPosition = (callback) => {
@@ -285,7 +304,18 @@ class Playlist extends Component {
                         <IconButton onClick={this.clearPlaylist}><IconClear /></IconButton>
 
                         <div style={style}>
-                            <Slider ref="sliderVolume" step={1} style={volumeStyle} defaultValue={10} value={this.state.volume} min={0} max={100} onDragStop={this.changeVolume}/>
+                            <Slider
+                                ref="sliderVolume"
+                                step={1}
+                                disableFocusRipple={true}
+                                style={volumeStyle}
+                                defaultValue={10}
+                                value={this.state.volume}
+                                min={0}
+                                max={100}
+                                onDragStart={this.startChangeVolume}
+                                onDragStop={this.stopChangeVolume}
+                                onChange={this.changeVolume}/>
                         </div>
 
 

@@ -52,7 +52,7 @@ class SearchItem extends Component {
             part: 'contentDetails',
             id: id
         }, function (data) {
-            self.setState({count: data.items[0].contentDetails.itemCount + ' songs'});
+            self.setState({count: data.items[0].contentDetails.itemCount + ' videos'});
         });
     };
 
