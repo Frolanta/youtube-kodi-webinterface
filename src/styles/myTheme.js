@@ -9,7 +9,7 @@ import zIndex from 'material-ui/lib/styles/zIndex';
 export default {
     fontFamily: 'Lato, sans-serif',
     palette: {
-        primary1Color: Colors.blueGrey900,
+        primary1Color: Colors.blue800,
         primary2Color: Colors.cyan700,
         primary3Color: Colors.lightBlack,
         accent1Color: Colors.white,

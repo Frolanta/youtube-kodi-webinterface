@@ -6,6 +6,8 @@ import RaisedButton from 'material-ui/lib/raised-button';
 import FontIcon from 'material-ui/lib/font-icon';
 import IconButton from 'material-ui/lib/icon-button';
 import Paper from 'material-ui/lib/paper';
+import Slider from 'material-ui/lib/slider';
+
 import Config from 'utils/Config';
 import KodiUtils from 'utils/KodiUtils';
 import PlaylistItemsList from 'components/PlaylistItemsList'
@@ -19,7 +21,13 @@ import IconPrevious from 'material-ui/lib/svg-icons/av/skip-previous';
 import IconClear from 'material-ui/lib/svg-icons/communication/clear-all';
 
 const style = {
-    marginRight: 10
+    padding: '10px'
+};
+
+const volumeStyle = {
+    marginTop: '5px',
+    marginBottom: '10px'
+
 };
 
 class Playlist extends Component {
@@ -30,6 +38,7 @@ class Playlist extends Component {
         this.state = {
             opened: false,
             playing: true,
+            volume: 0,
             items: [],
             openSnackBar: this.props.openSnackBar
         };
@@ -85,6 +94,13 @@ class Playlist extends Component {
                     case 'Playlist.OnClear':
                         self.setState({items: []});
                         break;
+                    case 'Application.OnVolumeChanged':
+                        if (!res.params.data.muted) {
+                            self.setState({volume: res.params.data.volume});
+                        } else {
+                            self.setState({volume: 0});
+                        }
+                        break;
                     default:
                         break;
                 }
@@ -94,6 +110,7 @@ class Playlist extends Component {
 
         this.isPlayerOpened();
         this.refreshPlaylist();
+        this.getVolume();
 
     }
 
@@ -179,6 +196,27 @@ class Playlist extends Component {
         });
     };
 
+    getVolume = () => {
+
+        var self = this;
+
+        KodiUtils.apiCall('Application.GetProperties', {
+            properties: ['volume']
+        }, function (data) {
+            self.setState({volume: data.volume});
+        });
+    };
+
+    changeVolume = (e) => {
+        var newVolume = parseInt(this.refs.sliderVolume.getValue());
+
+        KodiUtils.apiCall('Application.SetVolume', {
+           volume: newVolume
+        }, function (data) {
+            console.log(data);
+        });
+    };
+
     getPlayerPosition = (callback) => {
         KodiUtils.apiCall('Player.GetProperties', {
             playerid: 1,
@@ -214,6 +252,7 @@ class Playlist extends Component {
         });
     };
 
+
     prevVideo = () => {
         KodiUtils.apiCall('Player.Move', {
             playerid: 1,
@@ -222,6 +261,8 @@ class Playlist extends Component {
             console.log(data);
         });
     };
+
+
 
     render () {
         return (
@@ -237,6 +278,11 @@ class Playlist extends Component {
                         <IconButton onClick={this.playPause}>{ this.state.playing ? <IconPause /> : <IconPlay /> }</IconButton>
                         <IconButton onClick={this.nextVideo}><IconNext /></IconButton>
                         <IconButton onClick={this.clearPlaylist}><IconClear /></IconButton>
+
+                        <div style={style}>
+                            <Slider ref="sliderVolume" step={1} style={volumeStyle} defaultValue={10} value={this.state.volume} min={0} max={100} onDragStop={this.changeVolume}/>
+                        </div>
+
 
                     </Paper>
 

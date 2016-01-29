@@ -80,8 +80,10 @@ class Home extends Component {
             <div style={containerStyle}>
                 <Paper zDepth={2} style={tabsStyle} >
                     <Tabs inkBarStyle={inkStyle} onChange={this.handleChange} value={this.state.slideIndex}>
-                        <Tab label="Playlist" style={style} value={0}></Tab>
-                        <Tab label="Search" style={style} value={1}></Tab>
+                        <Tab label="Playlist" style={style} value={0}>
+                        </Tab>
+                        <Tab label="Search" style={style} value={1}>
+                        </Tab>
                     </Tabs>
                 </Paper>
                 <SwipeableViews
