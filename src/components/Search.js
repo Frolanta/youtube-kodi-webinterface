@@ -26,6 +26,7 @@ class Search extends Component {
             items: [],
             nextPageToken: null,
             search: null,
+            newSearchCallback: props.newSearchCallback,
             loading: false
         };
     }
@@ -51,6 +52,7 @@ class Search extends Component {
                 if (data.nextPageToken) {
                     self.setState({nextPageToken: data.nextPageToken});
                 }
+                self.state.newSearchCallback();
             });
         } else {
             this.setState({items: [], search: null});
