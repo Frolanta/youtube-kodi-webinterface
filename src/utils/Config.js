@@ -5,10 +5,10 @@
 
 var Config = {
     youtube: {
-        apiKey: 'AIzaSyAex_jkoIzt99SqMKXVCF7XRAQFDDDEwR4'
+        apiKey: 'YOUTUBE_API_KEY_HERE'
     },
     kodi: {
-        ip: '192.168.0.16',
+        ip: 'here.your.ip',
         port: '8080',
         wsPort: '9090'
     }
