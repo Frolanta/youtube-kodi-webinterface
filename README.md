@@ -22,18 +22,18 @@ Try in local:
 Installation (Looking for an easier way):
 
  - First you will need a Youtube API key for this to work. Go to https://console.cloud.google.com/ and get one here.
- - Then dowload the zip file and install it on Kodi like any other zip addons.
- - Then connect to  with SSH or open a Terminal on your Kodi.
+ - Then download the zip file and install it on Kodi like any other zip addons.
+ - Connect with SSH or open a Terminal on your Kodi.
  - Locate the addons directory (for osmc the path is: /home/osmc/.kodi/addons/webinterface.ywifk)
  - open bundle.js and search for "apiKey", then past your Youtube API here
- - Next to the youtube api key you will need to enter your Kodi ip (I recommand to have a static ip), port (default sould be 80 or 8080) and websocket port (default sould be 9090).
-- IF you aleady have other webinterface you should be able to access to YWIFK with this URL; http://your.kodi.ip:port/addons/webinterface.ywifk/ 
+ - Next to the youtube api key you will need to enter your Kodi ip (I recommand to have a static ip), port (default should be 80 or 8080) and websocket port (default should be 9090).
+- IF you installed other webinterfaces you should be able to access to YWIFK with this URL: http://your.kodi.ip:port/addons/webinterface.ywifk/ 
 
 How it works:
 
  - To to the search tab to browse Youtube's videos, click on the result to add it on the playlist.
  - Then go back to the playlist Tab and click on the power button to open the video player with the playlist.
- - You can continue to add videos when the player ir running.
+ - You can continue to add videos when the player is running.
 
 Know issues:
  - Can broke if you have videos on your playlist added by other application than this webinterface.
