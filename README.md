@@ -13,6 +13,12 @@ Features:
  - Manage your video playlist (remove and goto item).
  - Volume control, play, pause, stop, clear playlist and open player.
 
+Try in local:
+ - You need nodejs and npm installed to try it in local
+ - 'npm install' to install all dependencies
+ - 'npm start' to start server.
+ - Edit utils/Config.js file with your Youtube api key and Kodi's ip/ports.
+
 Installation:
 
  - First you will need a Youtube API key for this to work. Go to https://console.cloud.google.com/ and get one here.
