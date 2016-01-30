@@ -23,7 +23,7 @@ Installation (Looking for an easier way):
 
  - First you will need a Youtube API key for this to work. Go to https://console.cloud.google.com/ and get one here.
  - Then dowload the zip file and install it on Kodi like any other zip addons.
- - Then connect to your with SSH or open a Terminal on your Kodi.
+ - Then connect to  with SSH or open a Terminal on your Kodi.
  - Locate the addons directory (for osmc the path is: /home/osmc/.kodi/addons/webinterface.ywifk)
  - open bundle.js and search for "apiKey", then past your Youtube API here
  - Next to the youtube api key you will need to enter your Kodi ip (I recommand to have a static ip), port (default sould be 80 or 8080) and websocket port (default sould be 9090).
