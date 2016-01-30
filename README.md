@@ -19,7 +19,7 @@ Try in local:
  - 'npm start' to start server.
  - Edit utils/Config.js file with your Youtube api key and Kodi's ip/ports.
 
-Installation:
+Installation (Looking for an easier way):
 
  - First you will need a Youtube API key for this to work. Go to https://console.cloud.google.com/ and get one here.
  - Then dowload the zip file and install it on Kodi like any other zip addons.
