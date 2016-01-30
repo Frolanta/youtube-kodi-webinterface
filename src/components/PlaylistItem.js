@@ -82,7 +82,7 @@ class PlaylistItem extends Component {
             <ListItem
                 style={styles[this.state.status]}
                 key={this.props.pos}
-                leftAvatar={<Avatar src={this.state.status === 'playing' ? '/src/images/playing.gif' : this.state.thumbnail} />}
+                leftAvatar={<Avatar src={this.state.status === 'playing' ? './src/images/playing.gif' : this.state.thumbnail} />}
                 primaryText={this.state.title}
                 rightIconButton={
                 <IconMenu
