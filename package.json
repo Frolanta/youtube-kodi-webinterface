@@ -43,7 +43,6 @@
     "material-ui": "^0.14.3",
     "react": "^0.14.6",
     "react-dom": "^0.14.6",
-    "react-router": "^2.0.0-rc5",
     "react-swipeable-views": "^0.4.0",
     "react-tap-event-plugin": "^0.2.1",
     "superagent": "^1.4.0",
