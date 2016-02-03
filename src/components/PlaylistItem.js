@@ -11,6 +11,7 @@ import IconButton from 'material-ui/lib/icon-button';
 import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 import IconMenu from 'material-ui/lib/menus/icon-menu';
 import MenuItem from 'material-ui/lib/menus/menu-item';
+import Config from 'utils/Config';
 
 
 const styles = {
@@ -33,12 +34,8 @@ class PlaylistItem extends Component {
         super(props);
 
         this.state = {
-            status: 'notplayed',
-            playing: false,
             thumbnail: null,
-            title: this.props.item.file,
-            pos: this.props.pos,
-            file: this.props.item.file
+            title: this.props.item.file
         };
 
         this.getYoutubeDetails();
@@ -46,7 +43,7 @@ class PlaylistItem extends Component {
 
     getYoutubeDetails = () => {
 
-        var id = this.state.file.substring(57, this.state.file.length);
+        var id = this.props.item.file.substring(Config.youtube.pluginPath.length, this.props.item.file.length);
         var self = this;
 
         YoutubeUtils.apiCall('videos', {part: 'snippet', id}, function (data) {
@@ -59,30 +56,23 @@ class PlaylistItem extends Component {
 
     goToVideo = () => {
 
-        KodiUtils.apiCall('Player.GoTo', {playerid: 1, to: this.state.pos}, function (data) {
+        KodiUtils.apiCall('Player.GoTo', {playerid: 1, to: this.props.pos}, function (data) {
             console.log(data);
         });
 
     };
 
     removeVideo = () => {
-        KodiUtils.apiCall('Playlist.Remove', {playlistid: 1, position: this.state.pos}, function (data) {
+        KodiUtils.apiCall('Playlist.Remove', {playlistid: 1, position: this.props.pos}, function (data) {
             console.log(data);
         });
     };
 
-
-    setStatus = (status) => {
-        this.setState({status: status});
-    };
-
-
     render () {
         return (
             <ListItem
-                style={styles[this.state.status]}
-                key={this.props.pos}
-                leftAvatar={<Avatar src={this.state.status === 'playing' ? './src/images/playing.gif' : this.state.thumbnail} />}
+                style={styles[this.props.item.status]}
+                leftAvatar={<Avatar src={this.props.item.status === 'playing' ? './src/images/playing.gif' : this.state.thumbnail} />}
                 primaryText={this.state.title}
                 rightIconButton={
                 <IconMenu

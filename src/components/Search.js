@@ -8,6 +8,9 @@ import YoutubeUtils from 'utils/YoutubeUtils';
 import Paper from 'material-ui/lib/paper';
 import CircularProgress from 'material-ui/lib/circular-progress';
 import RaisedButton from 'material-ui/lib/raised-button';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { fetchNextVideos } from 'actions/index';
 
 const style = {
     padding: '10px'
@@ -27,47 +30,11 @@ class Search extends Component {
 
     constructor(props) {
         super(props);
-
-        this.state = {
-            items: [],
-            nextPageToken: null,
-            search: null,
-            newSearchCallback: props.newSearchCallback,
-            loading: false
-        };
     }
 
-    handleNewRequest = (search, nextPage = false) => {
-
-        if (search.length > 0) {
-
-            if (!nextPage) {
-                this.setState({items: []});
-            }
-            this.setState({loading: true});
-            var self = this;
-
-            YoutubeUtils.apiCall("search", {
-                q: search,
-                part: 'snippet',
-                maxResults: 10,
-                type: 'video, playlist',
-                pageToken: nextPage ? this.state.nextPageToken : null
-            }, function (data) {
-                self.setState({items: nextPage ? self.state.items.concat(data.items) : data.items, search: search, loading: false});
-                if (data.nextPageToken) {
-                    self.setState({nextPageToken: data.nextPageToken});
-                }
-                self.state.newSearchCallback();
-            });
-        } else {
-            this.setState({items: [], search: null});
-        }
-
-    };
-
     nextPage = () => {
-        this.handleNewRequest(this.state.search, true);
+        //this.handleNewRequest(this.state.search, true);
+        this.props.fetchNextVideos(this.props.search.search, this.props.search.nextPageToken);
     };
 
     render () {
@@ -75,15 +42,23 @@ class Search extends Component {
             <div className="search">
                 <Paper zDepth={1}>
                     <div style={style}>
-                        <SearchInput handleNewRequest={this.handleNewRequest}></SearchInput>
+                        <SearchInput></SearchInput>
                     </div>
-                    <SearchItemsList items={this.state.items}></SearchItemsList>
-                    { this.state.loading && <div style={loadMoreStyle}><CircularProgress /></div> }
-                    { this.state.nextPageToken && <div style={loadMoreStyle}><RaisedButton style={loadMoreButton} label="Load more" secondary={true} onClick={this.nextPage}/></div>}
+                    <SearchItemsList items={this.props.search.items}></SearchItemsList>
+                    { this.props.search.loading && <div style={loadMoreButton}><CircularProgress /></div> }
+                    { this.props.search.nextPageToken && <div style={loadMoreStyle}><RaisedButton style={loadMoreButton} label="Load more" secondary={true} onClick={this.nextPage}/></div>}
                 </Paper>
             </div>
         );
     }
 }
 
-export default Search
+function mapStateToProps({ search }) {
+    return { search };
+}
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({ fetchNextVideos }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Search);

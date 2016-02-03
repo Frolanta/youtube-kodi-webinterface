@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Tabs from 'material-ui/lib/tabs/tabs';
 import Tab from 'material-ui/lib/tabs/tab';
-import Slider from 'material-ui/lib/slider';
 import SwipeableViews from 'react-swipeable-views';
 import Paper from 'material-ui/lib/paper';
 import Snackbar from 'material-ui/lib/snackbar';

@@ -13,10 +13,16 @@ const style = {
 
 class SearchItemsList extends Component {
     render () {
+
+        if (!this.props.items) {
+            return (<div>No videos</div>);
+        }
+
+
         var content = this.props.items.map(function(item, key){
 
             return (
-                <div key={key}>
+                <div key={item.etag}>
                     <SearchItem item={item}></SearchItem>
                     <Divider />
                 </div>

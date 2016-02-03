@@ -5,10 +5,11 @@
 
 var Config = {
     youtube: {
-        apiKey: 'YOUTUBE_API_KEY_HERE'
+        apiKey: 'AIzaSyAex_jkoIzt99SqMKXVCF7XRAQFDDDEwR4',
+        pluginPath: 'plugin://plugin.video.youtube/play/?video_id='
     },
     kodi: {
-        ip: 'here.your.ip',
+        ip: '192.168.0.16',
         port: '8080',
         wsPort: '9090'
     }

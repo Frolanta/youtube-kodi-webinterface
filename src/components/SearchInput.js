@@ -4,6 +4,9 @@
 import React, { Component } from 'react'
 import AutoComplete from 'material-ui/lib/auto-complete';
 import YoutubeUtils from 'utils/YoutubeUtils';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { fetchVideos, startSearch } from 'actions/index';
 
 const style = {
     width: '100%',
@@ -39,13 +42,18 @@ class SearchInput extends Component {
         }
     };
 
+    handleNewRequest = (input) => {
+        this.props.startSearch(input);
+        this.props.fetchVideos(input);
+    };
+
     render () {
         return (
             <AutoComplete
                 hintText="Search"
                 dataSource={this.state.dataSource}
                 onUpdateInput={this.handleUpdateInput}
-                onNewRequest={this.props.handleNewRequest}
+                onNewRequest={this.handleNewRequest}
                 filter={AutoComplete.fuzzyFilter}
                 style={style}
                 />
@@ -53,4 +61,8 @@ class SearchInput extends Component {
     }
 }
 
-export default SearchInput
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({ fetchVideos, startSearch }, dispatch);
+}
+
+export default connect(null, mapDispatchToProps)(SearchInput);

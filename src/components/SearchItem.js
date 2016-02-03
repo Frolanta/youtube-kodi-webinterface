@@ -7,6 +7,7 @@ import Avatar from 'material-ui/lib/avatar';
 import Colors from 'material-ui/lib/styles/colors';
 import YoutubeUtils from 'utils/YoutubeUtils';
 import KodiUtils from 'utils/KodiUtils';
+import Config from 'utils/Config';
 
 
 class SearchItem extends Component {
@@ -15,11 +16,8 @@ class SearchItem extends Component {
         super(props);
 
         this.state = {
-            thumbnail: props.item.snippet.thumbnails.high.url,
-            title: props.item.snippet.title,
             channel: props.item.id.kind === 'youtube#video' ? props.item.snippet.channelTitle : 'Playlist',
             count: '...',
-            nextPageToken: null,
             type: props.item.id.kind === 'youtube#video' ? 'video' : 'playlist',
             id: props.item.id.kind === 'youtube#video' ? props.item.id.videoId: props.item.id.playlistId
         };
@@ -60,7 +58,7 @@ class SearchItem extends Component {
         KodiUtils.apiCall('Playlist.Add', {
             playlistid: 1,
             item: {
-                file: "plugin://plugin.video.youtube/?action=play_video&videoid=" + id
+                file: Config.youtube.pluginPath + id
             }
         }, function (data) {
             //console.log(data);
@@ -97,8 +95,8 @@ class SearchItem extends Component {
             <ListItem
                 key={this.props.key}
                 onClick={this.addToPlaylist}
-                leftAvatar={<Avatar src={this.state.thumbnail} />}
-                primaryText={this.state.title}
+                leftAvatar={<Avatar src={this.props.item.snippet.thumbnails.high.url} />}
+                primaryText={this.props.item.snippet.title}
                 secondaryText={
                         <p>
                           <span style={{color: Colors.darkBlack}}>
