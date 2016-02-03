@@ -40,7 +40,7 @@ class Playlist extends Component {
 
     constructor(props) {
         super(props);
-        
+
         var self = this;
         var sock =  new WebSocket('ws://' + Config.kodi.ip + ':' + Config.kodi.wsPort + '/jsonrpc');
         sock.onopen = function() {
