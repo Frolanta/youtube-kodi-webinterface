@@ -7,6 +7,7 @@ import YoutubeUtils from 'utils/YoutubeUtils';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { fetchVideos, startSearch } from 'actions/index';
+import _ from 'lodash';
 
 const style = {
     width: '100%',
@@ -25,6 +26,13 @@ class SearchInput extends Component {
 
     handleUpdateInput = (input) => {
 
+        const videoSearch = _.debounce(() => { this.getSuggestion(input) }, 500);
+        videoSearch();
+
+    };
+
+    getSuggestion = (input) => {
+
         if (input.length >= 3) {
             var self = this;
             YoutubeUtils.getSuggestions(input, function (data) {
@@ -38,7 +46,7 @@ class SearchInput extends Component {
             });
 
         } else {
-            this.setState({dataSource: []});
+            this.setState({ dataSource: [] });
         }
     };
 
@@ -48,6 +56,7 @@ class SearchInput extends Component {
     };
 
     render () {
+
         return (
             <AutoComplete
                 hintText="Search"

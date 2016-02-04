@@ -7,6 +7,7 @@ import FontIcon from 'material-ui/lib/font-icon';
 import IconButton from 'material-ui/lib/icon-button';
 import Paper from 'material-ui/lib/paper';
 import Slider from 'material-ui/lib/slider';
+import _ from 'lodash';
 
 import Config from 'utils/Config';
 import KodiUtils from 'utils/KodiUtils';
@@ -108,17 +109,24 @@ class Playlist extends Component {
 
     changeVolume = (e) => {
 
-        var nv = parseInt(this.refs.sliderVolume.getValue());
-        this.props.changeVolume(nv);
+        const setVolume = _.debounce(() => {
 
-        if (!this.props.playlist.volumeDragging) {
+            var nv = parseInt(this.refs.sliderVolume.getValue());
 
-            KodiUtils.apiCall('Application.SetVolume', {
-                volume: nv
-            }, function (data) {
-                //console.log(data);
-            });
-        }
+            if (nv !== this.props.playlist.volume) {
+                this.props.changeVolume(nv);
+
+                KodiUtils.apiCall('Application.SetVolume', {
+                    volume: nv
+                }, function (data) {
+                    console.log(data);
+                });
+            }
+
+        }, 700);
+
+        setVolume();
+
     };
 
     stopChangeVolume = (e) => {

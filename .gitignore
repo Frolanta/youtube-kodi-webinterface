@@ -1,5 +1,4 @@
 node_modules/
 dist/
-src/utils/Config.js
 npm-debug.log
 webpack-stats.json

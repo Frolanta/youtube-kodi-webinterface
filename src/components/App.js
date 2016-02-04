@@ -38,8 +38,7 @@ const tabsStyle = {
 
 const swipeableViewsStyle = {
     paddingTop: '50px',
-    height: '100%',
-    overflow: 'inherit'
+    height: '100%'
 };
 
 
@@ -71,7 +70,7 @@ class App extends Component {
                     </Tabs>
                 </Paper>
                 <SwipeableViews
-                    disabled={this.props.app.toggleSwipping}
+                    disabled={this.props.app.swipping}
                     index={this.state.slideIndex}
                     onChangeIndex={this.handleChange}
                     style={swipeableViewsStyle}
