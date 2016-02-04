@@ -76,20 +76,23 @@ export default function (state = null, action) {
             };
         case REFRESH_PLAYLIST:
             var i = 0;
-            action.payload.items.forEach(function (item) {
-                if (i < state.playingItemPosition) {
-                    item.status = 'played';
-                } else if (i > state.playingItemPosition) {
-                    item.status = 'notplayed';
-                } else {
-                    item.status = 'playing';
-                }
-                i++
-            });
+
+            if (action.payload.items) {
+                action.payload.items.forEach(function (item) {
+                    if (i < state.playingItemPosition) {
+                        item.status = 'played';
+                    } else if (i > state.playingItemPosition) {
+                        item.status = 'notplayed';
+                    } else {
+                        item.status = 'playing';
+                    }
+                    i++
+                });
+            }
 
             return {
                 ...state,
-                items: action.payload.items
+                items: action.payload.items ? action.payload.items : []
             };
         case  GET_VOLUME:
             return {
