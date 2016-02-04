@@ -2,7 +2,9 @@
 
 Youtube webinterface for Kodi.
 
-I did it for myself to try ReactJs for the first time on a real app, so don't expect it to be perfect.
+![alt-tag](https://media.giphy.com/media/l2JIhtfEBkGeAwK1a/giphy.gif)
+
+I did it for myself to try ReactJs + Redux for the first time on a real app, so don't expect it to be perfect.
 Could be usefull during parties, give your guests your WiFi access and the webinterface URL so they can
 add music videos.
 
@@ -12,6 +14,7 @@ Features:
  - Search videos and playlists on Youtube and add them to your Kodi's playlist.
  - Manage your video playlist (remove and goto item).
  - Volume control, play, pause, stop, clear playlist and open player.
+ - Video added from Youtube Application will show up correctly.
 
 Try in local:
  - You need nodejs and npm installed to try it in local
@@ -36,7 +39,7 @@ How it works:
  - You can continue to add videos when the player is running.
 
 Know issues:
- - Can broke if you have videos on your playlist added by other application than this webinterface.
+ - Can broke if you have videos on your playlist added by other application than this webinterface or Youtube.
 
 Tested on OSMC running on a Raspberry 2.
 
