@@ -2,7 +2,7 @@
 
 Youtube webinterface for Kodi.
 
-![alt-tag](https://media.giphy.com/media/l2JIhtfEBkGeAwK1a/giphy.gif =240x359)
+<img src="https://media.giphy.com/media/l2JIhtfEBkGeAwK1a/giphy.gif" width="240" height="359">
 
 I did it for myself to try ReactJs + Redux for the first time on a real app, so don't expect it to be perfect.
 Could be usefull during parties, give your guests your WiFi access and the webinterface URL so they can
